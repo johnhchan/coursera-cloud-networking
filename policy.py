@@ -173,6 +173,39 @@ class StaticPolicy(object):
         #   (Hint: to find a the VLAN, use topo.getVlanCore(vlanId))
 
         # [ADD YOUR CODE HERE]
+        for edge in topo.edgeSwitches.values():
+	    routingTable[edge.dpid]=[]
+	    for h in topo.hosts.values():
+		if h.name in edge.neighbors:
+                    outport = topo.ports[edge.name][h.name]
+		    #print "OUTPORT: ", outport
+                else:
+		    if h.name in topo.vlans[0]:
+          	        outport = topo.ports[edge.name][topo.getVlanCore(0)]
+		        #print "VLANS0: ", topo.getVlanCore(0) 
+		        #print "EDGE Name", edge.name, h.name
+		        #print "CORE0", core
+		        #print "PORTS0", topo.ports[edge.name][topo.getVlanCore(0)]
+		    elif h.name in topo.vlans[1]:
+		        #print "VLANS1: ", topo.vlans[1]
+		        #print "VLANS1: ", topo.getVlanCore(1) 
+		        #print "EDGE.NEIGHBORS", edge.name, h.name, core
+		        #print "PORTS1", topo.ports.keys()
+		        #print "CORE1", core
+		        #print "PORTS1", topo.ports[edge.name][topo.getVlanCore(1)]
+          	        outport = topo.ports[edge.name][topo.getVlanCore(1)]
+		        #print "OUTPORT: ", outport
+		    else:
+			print "SOMETHING IS WRONG"
+
+                routingTable[edge.dpid].append({
+                    'eth_dst' : h.eth,
+                    'output' : [outport],
+                    'priority' : 2,
+                    'type' : 'dst'
+                })
+
+        #print "Routing Table: ", routingTable
 
         return flood.add_arpflood(routingTable, topo)
 
@@ -199,6 +232,7 @@ class DefaultPolicy(object):
                 'type' : 'dst'
             })
 
+	# DEFAULT
         # create rules for packets from edge -> core (upward)
         for edge in topo.edgeSwitches.values():
             routingTable[edge.dpid] = []
