@@ -80,6 +80,15 @@ class AdaptivePolicy(object):
         # to find the least utilized switch.
 
         # [REPLACE WITH YOUR CODE]
+
+	#jlow = []
+	#for core in self.topo.coreSwitches.keys()
+	#    core.ukk	
+	
+	print "IN MY ASS 4 CODE"
+	print self.utlization
+	print "END OF DEBUG"
+
         return self.utilization.keys()[0]
 
     def redistribute(self):
@@ -178,25 +187,32 @@ class StaticPolicy(object):
 	    for h in topo.hosts.values():
 		if h.name in edge.neighbors:
                     outport = topo.ports[edge.name][h.name]
+		    #print "OutportNeigh Set to: ", outport, "for edge", edge, "host", h.name
 		    #print "OUTPORT: ", outport
                 else:
-		    if h.name in topo.vlans[0]:
-          	        outport = topo.ports[edge.name][topo.getVlanCore(0)]
-		        #print "VLANS0: ", topo.getVlanCore(0) 
+          	    outport = topo.ports[edge.name][topo.getVlanCore(h.vlans[0])] 
+  	            #if h.name in topo.vlans[0]:
+          	        #outport = topo.ports[edge.name][topo.getVlanCore(h.vlans[0])]
+          	        #outport = topo.ports[edge.name][topo.getVlanCore(0)]
+		        #print "Outport0 Set to: ", outport, "for edge:", edge, "host:", h.name
+		        #print "VLANS0: ", topo.vlans[0]
+			#print "VLANS0: ", topo.getVlanCore(0) 
 		        #print "EDGE Name", edge.name, h.name
+		        #print "HOST Name", h.name, h.vlans[0]
 		        #print "CORE0", core
 		        #print "PORTS0", topo.ports[edge.name][topo.getVlanCore(0)]
-		    elif h.name in topo.vlans[1]:
+		    #elif h.name in topo.vlans[1]:
 		        #print "VLANS1: ", topo.vlans[1]
 		        #print "VLANS1: ", topo.getVlanCore(1) 
 		        #print "EDGE.NEIGHBORS", edge.name, h.name, core
+		        #print "HOST Name", h.name, h.vlans
 		        #print "PORTS1", topo.ports.keys()
 		        #print "CORE1", core
 		        #print "PORTS1", topo.ports[edge.name][topo.getVlanCore(1)]
-          	        outport = topo.ports[edge.name][topo.getVlanCore(1)]
+          	        #outport = topo.ports[edge.name][topo.getVlanCore(1)]
+		        #print "Outport1 Set to: ", outport, "for edge:", edge, "host", h.name
 		        #print "OUTPORT: ", outport
-		    else:
-			print "SOMETHING IS WRONG"
+
 
                 routingTable[edge.dpid].append({
                     'eth_dst' : h.eth,
