@@ -81,9 +81,13 @@ class AdaptivePolicy(object):
 
         # [REPLACE WITH YOUR CODE]
 
-	#jlow = []
-	#for core in self.topo.coreSwitches.keys()
-	#    core.ukk	
+	low = self.utilization[0].value
+	print "CURRENT LOW is:", low
+	for key in self.utilization.keys():
+	    if self.utilization[key].value < low:
+	        low = self.utlization[key].value
+	        print "CURRENT LOW is:", low
+
 	
 	print "IN MY ASS 4 CODE"
 	print self.utlization
